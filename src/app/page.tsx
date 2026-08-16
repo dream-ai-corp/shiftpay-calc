@@ -1,69 +1,73 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { OvertimeTaxCalc } from "@/components/calculators/OvertimeTaxCalc";
+import { PageChrome } from "@/components/PageChrome";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "No tax on overtime calculator (2025–2028)",
+  description:
+    "Free no tax on overtime calculator. See the FLSA premium, Schedule 1-A deduction cap, MAGI phase-out, and estimated federal tax saved. FICA still applies.",
+  alternates: { canonical: SITE_URL },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: `${SITE_NAME} No Tax on Overtime Calculator`,
+  url: SITE_URL,
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <PageChrome
+        active="overtime-tax"
+        kicker="No tax on overtime calculator"
+        title="How much of your overtime is actually untaxed?"
+        lede="The 2025–2028 deduction is only the extra half of time-and-a-half, capped at $12,500 ($25,000 if you file jointly). Punch your hours. See the premium, the cap, and the federal tax you may keep."
+      >
+        <OvertimeTaxCalc />
+        <article className="prose-shift mt-12 max-w-3xl space-y-4 text-paper/80">
+          <h2 className="font-serif text-2xl text-paper">
+            What “no tax on overtime” actually deducts
+          </h2>
+          <p>
+            Congress labeled it “no tax on overtime.” The Internal Revenue Service
+            implemented a <strong>below-the-line deduction</strong> for{" "}
+            <em>qualified overtime compensation</em> — the FLSA premium, not the
+            whole overtime check. If you earn $22 an hour and time-and-a-half is
+            $33, only $11 per overtime hour can go on Schedule 1-A.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          <p>
+            The deduction exists for tax years <strong>2025 through 2028</strong>.
+            It is available whether you itemize or take the standard deduction.
+            Married filing separately cannot claim it. You need a Social Security
+            number valid for employment. Employers should report the qualified
+            amount in Box 12, code TT, starting with 2026 W-2s.
+          </p>
+          <h2 className="font-serif text-2xl text-paper">Caps and phase-out</h2>
+          <ul className="list-disc space-y-1 pl-5">
+            <li>Maximum deduction: $12,500, or $25,000 married filing jointly.</li>
+            <li>Phase-out starts at $150,000 MAGI ($300,000 joint).</li>
+            <li>The deduction drops $100 for each full $1,000 over the line.</li>
+            <li>It hits $0 at $275,000 MAGI ($550,000 joint) if you were at the cap.</li>
+          </ul>
+          <h2 className="font-serif text-2xl text-paper">What still gets taxed</h2>
+          <p>
+            Social Security and Medicare are withheld on the full overtime wage.
+            Most states have not copied the federal deduction. The regular-rate
+            slice of every overtime hour stays in ordinary income. This page is an
+            estimate, not a filed Schedule 1-A.
+          </p>
+        </article>
+      </PageChrome>
+    </>
   );
 }
